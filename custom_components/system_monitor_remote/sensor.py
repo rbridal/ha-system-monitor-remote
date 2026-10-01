@@ -1,6 +1,7 @@
 """Sensors for System Monitor Remote."""
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any
 
 from homeassistant.components.sensor import (
@@ -14,6 +15,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo, EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.util import dt as dt_util
 
 from .const import DOMAIN
 from .coordinator import RemoteMonitorCoordinator
@@ -100,10 +102,13 @@ class UptimeSensor(_Base):
         super().__init__(coordinator, entry, "uptime", "Uptime")
 
     @property
-    def native_value(self) -> Any:
+    def native_value(self) -> datetime | None:
         if self.coordinator.data is None:
             return None
-        return self.coordinator.data.get("boot_time")
+        raw = self.coordinator.data.get("boot_time")
+        if not raw:
+            return None
+        return dt_util.parse_datetime(str(raw))
 
 
 class Ipv4Sensor(_Base):
