@@ -1,0 +1,12 @@
+{
+  "domain": "system_monitor_remote",
+  "name": "System Monitor Remote",
+  "codeowners": ["@rbridal"],
+  "config_flow": true,
+  "dependencies": ["mqtt"],
+  "documentation": "https://github.com/rbridal/ha-system-monitor-remote",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/rbridal/ha-system-monitor-remote/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

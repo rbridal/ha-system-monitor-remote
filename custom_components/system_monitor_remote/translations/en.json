@@ -1,0 +1,21 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "System Monitor Remote",
+        "description": "Device id must match the host agent. shop-* belongs on shop-ha. home-* belongs on home-ha.",
+        "data": {
+          "name": "Display name",
+          "device_id": "Device id",
+          "state_topic": "State topic"
+        }
+      }
+    },
+    "error": {
+      "invalid_device": "Device id cannot be empty or contain a slash."
+    },
+    "abort": {
+      "already_configured": "This host is already configured."
+    }
+  }
+}
