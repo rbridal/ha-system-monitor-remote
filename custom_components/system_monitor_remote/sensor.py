@@ -39,6 +39,7 @@ async def async_setup_entry(
     coordinator.async_add_sensors = async_add_entities
     async_add_entities(
         [
+            ValueSensor(coordinator, entry, "hardware", "Hardware", None, measurement=False),
             ValueSensor(coordinator, entry, "disk_usage", "Disk usage /", PERCENTAGE),
             ValueSensor(coordinator, entry, "memory_usage", "Memory usage", PERCENTAGE),
             ValueSensor(coordinator, entry, "processor_use", "Processor use", PERCENTAGE),
@@ -66,12 +67,12 @@ class _Base(CoordinatorEntity[RemoteMonitorCoordinator], SensorEntity):
 
 
 class ValueSensor(_Base):
-    _attr_state_class = SensorStateClass.MEASUREMENT
-
-    def __init__(self, coordinator, entry, key: str, name: str, unit: str | None) -> None:
+    def __init__(self, coordinator, entry, key: str, name: str, unit: str | None, measurement: bool = True) -> None:
         super().__init__(coordinator, entry, key, name)
         self._key = key
         self._attr_native_unit_of_measurement = unit
+        if measurement:
+            self._attr_state_class = SensorStateClass.MEASUREMENT
 
     @property
     def native_value(self) -> Any:
